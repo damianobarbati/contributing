@@ -19,9 +19,12 @@ Each component must:
 
 ## Styling
 - Use Tailwind utility classes.
-- Encapsulate frequently reused styles inside reusable components in `ui/` instead of abstracting CSS classes with `@apply`.
+- Encapsulate frequently reused tailwind utility classes inside classes composed with `@apply` in theme.css.
 - Avoid inline `style` properties unless dynamically computed.
 - Avoid CSS-in-JS solutions.
+- Every component accepts a `className` prop, given to the root element of the component as the first prop;
+- Use `cx` imported from `clsx-tw` to combine multiple classnames; don't use string interpolation.
+- Always deduped tailwind classes.
 
 ## UI
 - All icons used in the project must reside in the `icons.tsx` re-exporting them individually

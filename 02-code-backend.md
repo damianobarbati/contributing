@@ -52,3 +52,10 @@ cli.ts                        # CLI commands definitions
 - Provide a health check endpoint that returns the API state
 - Avoid repeating the resource name in the method name: `UserService.greetUser()` is incorrect; `UserService.greet()` is correct.
 - never return calls to other functions, but always assign the result to a `const result = ...` and then `return result`, allowing a debugger breakpoint on returned value 
+- Use the custom ResourceRepository extending the Repository baseclass exported by `nano-fw` for datasource access.
+- Create custom repository methods only if methods in `Repository.ts` don't allow the functionality
+- Don't use custom getters, use `Repository.get` `Repository.getBy` `Repository.findBy` `Repository.getem` for rows look up.
+- Every `packages/api/src/**/*Service.ts` must export `default class <Resource>Service`; service methods must be `static async`. Services must not access database clients directly and must use repositories.
+- Every `packages/api/src/**/*Repository.ts` must extend `Repository` from `nano-fw/database/Repository.ts` and export a configured singleto (repository uses postgres)
+- Never use `pg` object outside of repositories.
+- Assume all timestamp columns are returned from postgres as iso8601.
