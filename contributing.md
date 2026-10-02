@@ -1,98 +1,266 @@
 ## General
 
-- ALWAYS keep local development fast; NEVER increase startup or change-reflection time.
-- ALWAYS use ESM first and TypeScript first; obey current `biome` configuration.
-- ALWAYS keep code simple, readable without comments, descriptive, non-repetitive, and scoped to present problem.
-- NEVER future-proof, use Chinese boxes, add unneeded problems/features/abstractions, over-complicate, over-engineer, or comment unless clarity requires it.
-- NEVER use optional chaining to silence access on possibly falsy object.
-- ALWAYS use `async`/`await` and `try/catch`; NEVER use promises, promise chaining, or callbacks. IF callback required THEN wrap with `node:util` `promisify`.
-- ALWAYS assign returned value to dedicated local variable/constant before returning; NEVER directly return inline/function call.
-- ALWAYS leave 1 blank line between class methods, route definitions, before `if`/`for`/`try/except`, and before block explanatory comments.
+- ALWAYS keep local development fast to start and reflect changes.
+- NEVER contribute changes that increase start or change-reflection time.
+- ALWAYS use ESM-first and TypeScript-first code.
+- ALWAYS keep code simple.
+- ALWAYS write code readable without comments.
+- ONLY solve current problem.
+- NEVER future-proof.
+- NEVER use Chinese boxes.
+- NEVER solve absent problems.
+- NEVER add unneeded features.
+- NEVER add unneeded abstractions.
+- ONLY add comments when clarity absolutely requires them.
+- ALWAYS use descriptive variable and function names.
+- IF requirements are unclear THEN ask for clarification.
+- ALWAYS ask confirmation for design decisions.
+- ALWAYS answer and code in English.
+- ALWAYS use ASD-STE100 Simplified Technical English.
+- NEVER be chatty or verbose.
+- ALWAYS state point directly.
+- NEVER use dashes.
+- NEVER use emojis.
+- NEVER write walls of text.
+- IF plan is too complex THEN use HTML to visualize changes.
+- IF user asks for clarification THEN use ELI12 mode.
+- NEVER install dependencies without user confirmation.
 
-## TypeScript
+## Code
 
-- ALWAYS use `import`/`export`; NEVER use `require`/`module.exports`.
-- ALWAYS prefer `type` over `interface`; use Zod inference for cross-layer types and dedicated types for layer-internal use.
-- ALWAYS prefer arrow functions, named exports, pure single-purpose functions, and readable non-overcomplicated types.
-- IF class THEN maintain internal state only. IF default export THEN app entrypoint, singleton, or DB connection only. IF function exceeds ~40 lines THEN consider splitting.
-- ALWAYS use object-destructured named parameters. IF input/multiple-value/complex-object return THEN define named input/return types. IF simple single-primitive return THEN NEVER define named types.
-- `services/types`: define every entity/database schema and controller request/response payload.
-
-## Entities
-
-- Tables: plural names. Types: singular names.
-- Entity types: `UserRow` raw `select`; `UserRowInsert` allowed/required raw `insert`; `UserRowUpdate` allowed raw `update`; `User` joined/computed entity; `UserFormValues` raw browser input for new-row form.
-- Entity type shape: `export type UserRow = {}`; `export type UserRowInsert = Partial<UserRow> & NonNullable<Pick<UserRow, 'email' | 'password'>>`; `export type UserRowUpdate = Partial<UserRow>`; `export type User = Omit<UserRow, 'role'> & { foe: Foe[] }`; `export type UserFormValues = Omit<UserRow, 'password'>`.
+- ALWAYS follow current `biome` configuration.
+- NEVER repeat code.
+- NEVER over-complicate or over-engineer code.
+- IF simple helper solves problem THEN use simple helper.
+- NEVER use optional chaining to silence access to possibly falsy object properties.
+- NEVER use promises.
+- ALWAYS use `async`/`await` with `try`/`catch` for promises.
+- NEVER use promise chaining.
+- ALWAYS assign call result to dedicated local variable or constant before returning it.
+- NEVER directly return inline calls.
+- ALWAYS leave one blank line between class methods.
+- ALWAYS leave one blank line between distinct route definitions.
+- ALWAYS leave one blank line before control blocks.
+- ALWAYS leave one blank line before block explanatory comments.
+- ALWAYS use `import`/`export`.
+- NEVER use CommonJS, `require`, or `module.exports`.
+- ALWAYS use TypeScript `type` over `interface`.
+- IF type is shared across layers THEN use Zod type inference.
+- IF type is layer-internal THEN use dedicated type.
+- ALWAYS prefer arrow functions over classes.
+- ONLY use classes to maintain internal state.
+- ALWAYS prefer named exports.
+- ONLY use default exports for app entrypoint, singletons, and database connection.
+- ALWAYS prefer pure functions.
+- ALWAYS make functions do one thing.
+- IF function exceeds about 40 lines THEN consider splitting it.
+- NEVER use callbacks.
+- IF callback is forced THEN wrap it with `node:util` `promisify`.
+- ALWAYS use object-destructured named parameters.
+- ALWAYS define named input type for function parameters.
+- IF return value is multiple values or complex object THEN define named return type.
+- IF function returns single primitive THEN NEVER use named types.
+- Entity: ALWAYS define type in `services/types`.
+- Controller request payload: ALWAYS define type in `services/types`.
+- Controller response payload: ALWAYS define type in `services/types`.
+- ALWAYS prefer typing readability.
+- Table: ALWAYS use plural name.
+- Entity type: ALWAYS use singular name.
+- Entity: ALWAYS define `Row` type for raw `select` data.
+- Entity: ALWAYS define `RowInsert` type for allowed and required raw `insert` data.
+- Entity: ALWAYS define `RowUpdate` type for allowed raw `update` data.
+- Entity: ALWAYS define entity type for joined data or computed attributes.
+- Entity: ALWAYS define `FormValues` type for browser-collected raw insertion data.
 
 ## Backend
 
-- ALWAYS enforce `controller` > `service` > `repository`; flow user → controller → service → repository → data layer.
-- Backend: return raw data, including ISO8601 dates and numeric amounts. Frontend: format, localize, present raw data.
-- ALWAYS route every user/agent state read/change through controller.
-- Controller: parse/cast/validate client input; route validated input to service; present service output; manage authentication/authorization; expose service functions as HTTP routes and possibly timed-job CLI commands. NEVER pass `ctx` to controller; pass only needed request params/body. Route definition: handle redirects/routing.
-- Service: business logic; orchestrate repositories/external services. Repository: access database/cache; retrieve/persist data.
-- Structure: `index.ts` NodeJS entrypoint; `router.ts` HTTP routes; `cli.ts` CLI commands; `<resource>/<Resource>Controller.ts`, `<Resource>Service.ts`, `<Resource>Repository.ts`.
-- ALWAYS use `console.log`/`console.error` appropriately; throw constant `new <HttpError>(<code>, <message>)`; validate request input and response output; document API inputs/outputs; provide health-check endpoint returning API state.
-- NEVER repeat resource name in method name.
-- ALWAYS use custom `ResourceRepository` extending `nano-fw` `Repository` base class for datasource access. IF base `Repository.ts` methods cannot implement operation THEN create custom repository method. NEVER use custom getters; use `Repository.get`, `getBy`, `findBy`, `getem` for row lookup.
-- `packages/api/src/**/*Service.ts`: export `default class <Resource>Service`; methods: `static async`; NEVER access DB client directly; ALWAYS use repositories.
-- `packages/api/src/**/*Repository.ts`: extend `Repository` from `nano-fw/database/Repository.ts`; export configured PostgreSQL singleton. NEVER use `pg` outside repositories.
-- PostgreSQL timestamps: assume ISO8601 return values.
+- ALWAYS enforce `controller` > `service` > `repository` responsibility separation.
+- ALWAYS flow data user > controller > service > repository > data layer.
+- Backend: ALWAYS return raw data.
+- Frontend: ALWAYS format, localize, and present received raw data.
+- ALWAYS route every user or agent state retrieval or change through controller.
+- Controller: ALWAYS parse client input.
+- Controller: ALWAYS cast client input.
+- Controller: ALWAYS validate client input.
+- Controller: ALWAYS route validated client input to service.
+- Controller: ALWAYS present service output to client.
+- Controller: ALWAYS manage authentication and authorization.
+- Controller: ALWAYS expose service functions as HTTP routes.
+- Controller: ALWAYS expose service functions as CLI commands when consumed as timed jobs.
+- Controller: NEVER receive `ctx`.
+- Controller: ONLY receive necessary request parameters or body.
+- Route definition: ALWAYS handle redirection and other routing functionality.
+- Service: ALWAYS implement business logic.
+- Service: ALWAYS orchestrate repositories and external services.
+- Repository: ALWAYS manage datasource access.
+- Repository: ALWAYS expose retrieval methods.
+- Repository: ALWAYS expose persistence methods.
+- ALWAYS use `console.log` and `console.error` appropriately.
+- Controller, service, repository: ALWAYS throw errors as `new <HttpError>(<code>, <message>)`.
+- ALWAYS define thrown errors as constants.
+- ALWAYS validate request input and response output.
+- ALWAYS provide API documentation for accepted inputs and expected outputs.
+- ALWAYS provide health-check endpoint returning API state.
+- NEVER repeat resource name in resource method name.
+- ALWAYS use custom `ResourceRepository` extending `Repository` from `nano-fw` for datasource access.
+- ONLY create custom repository methods when `Repository.ts` methods cannot provide functionality.
+- NEVER use custom getters for row lookup.
+- Row lookup: ALWAYS use `Repository.get`, `Repository.getBy`, `Repository.findBy`, or `Repository.getem`.
+- `packages/api/src/**/*Service.ts`: ALWAYS default-export `class <Resource>Service`.
+- Service methods: ALWAYS be `static async`.
+- Services: NEVER access database clients directly.
+- Services: ALWAYS use repositories.
+- `packages/api/src/**/*Repository.ts`: ALWAYS extend `Repository` from `nano-fw/database/Repository.ts`.
+- `packages/api/src/**/*Repository.ts`: ALWAYS export configured singleton.
+- Repositories: ALWAYS use Postgres.
+- NEVER use `pg` outside repositories.
+- ALWAYS treat Postgres timestamp columns as ISO8601.
+- Backend entrypoint: ALWAYS use `index.ts`.
+- HTTP route definitions: ALWAYS use `router.ts`.
+- CLI command definitions: ALWAYS use `cli.ts`.
+- Resource controller: ALWAYS use `<resource>/<Resource>Controller.ts` with default-exported class and static methods.
+- Resource service: ALWAYS use `<resource>/<Resource>Service.ts` with default-exported class and static methods.
+- Resource repository: ALWAYS use `<resource>/<Resource>Repository.ts` with default-exported object.
 
 ## Frontend
 
-- ALWAYS use functional React components/hooks. Component: filename matches component; `export const Component = () => {}`; `<ComponentName>Props` above component; built-in hooks through `React` namespace.
-- IF React Compiler does not optimize and performance benefit exceeds maintenance cost THEN use `useMemo`/`useCallback`. IF reuse/performance benefit exceeds maintenance cost THEN use custom hook. NEVER use nested JSX ternaries; use early-return/guard clauses for multi-branch rendering or single-level conditions.
-- NEVER use external library unless strictly necessary; ALWAYS evaluate bundle-size impact.
-- ALWAYS use Tailwind utilities. Frequently reused Tailwind classes: compose with `@apply` in `theme.css`.
-- CONFLICT: frequently reused Tailwind classes belong in reusable `ui/` components; NEVER use `@apply`.
-- NEVER use inline `style` unless dynamically computed, CSS-in-JS, or string interpolation for classnames. ALWAYS give every component `className` prop to root element as first prop; combine classes with `cx` from `clsx-tw`; dedupe Tailwind classes.
-- `icons.tsx`: contain every project icon; re-export each individually.
-- UX board: application UI kit with typography, `react-icons`, buttons/inputs with statuses/interactions (inputs by type), success/warning/error snackbar, yes/no confirmation, searchable/filterable table. ALWAYS provide every view at Desktop `1280x700`, Tablet `768x1024`, Smartphone `390x844`.
-- Responsive UI: ONLY stack or hide elements as viewport shrinks; NEVER change DOM structure by resolution/user.
-- State: use `zustand` plain objects for application/domain state; NEVER use global React Context, except scoped compound UI components.
-- Data: use `useSWR` reads and `useSWRMutation` backend mutations; NEVER combine `fetch`/`axios` with manual `useState`/`useEffect` fetching. ALWAYS use meaningful cache-friendly keys and show spinner/skeleton for async operations.
-- Forms: use `react-hook-form`; native `<form>`; correct input/button types for Enter submission.
-- Entity components: `User` full page; `UserGrid` card explorer; `UserGridItem` card; `UserList` table dashboard; `UserListItem` row; `UserCreationForm`; `UserUpdateForm`.
-- Structure: `main.tsx` root React element; `Router.tsx` react-router routes; `components/`; `hooks/`; `ui/` reused primitives including `icons.tsx`; `views/` route-level components except shared layouts.
+- ALWAYS use functional React components and hooks.
+- Component: ALWAYS use filename matching component name.
+- Component: ALWAYS use `export const Component = () => {}` export syntax.
+- Component: ALWAYS define and use `<ComponentName>Props` type above component.
+- Component: ALWAYS import built-in React hooks through `React` namespace.
+- ONLY use `useMemo` or `useCallback` when React Compiler does not optimize them and performance benefit outweighs maintenance overhead.
+- ONLY use custom hooks when reuse or performance benefit outweighs maintenance overhead.
+- ONLY use external libraries when strictly necessary.
+- ALWAYS evaluate external-library bundle-size impact.
+- NEVER use nested JSX ternaries.
+- Multi-branch JSX rendering: ALWAYS prefer early returns or guard clauses.
+- Single-level JSX conditions: ALWAYS keep conditions clean.
+- ALWAYS use Tailwind utility classes.
+- Frequently reused Tailwind utilities: ALWAYS compose classes with `@apply` in `theme.css`.
+- NEVER use inline `style` unless dynamically computed.
+- NEVER use CSS-in-JS.
+- Component: ALWAYS accept `className` prop.
+- Component root: ALWAYS receive `className` as first prop.
+- ALWAYS use `cx` from `clsx-tw` to combine class names.
+- NEVER use string interpolation to combine class names.
+- ALWAYS dedupe Tailwind classes.
+- Icons: ALWAYS reside in individually re-exporting `icons.tsx`.
+- UX: ALWAYS provide board composed of application UI kit.
+- UX board: ALWAYS include typography.
+- UX board: ALWAYS include `react-icons` icon set.
+- UX board: ALWAYS include buttons with statuses and interactions.
+- UX board: ALWAYS include inputs with statuses and interactions by input type.
+- UX board: ALWAYS include snackbar feedback for success, warning, and error actions.
+- UX board: ALWAYS include confirmation prompts for yes/no user input.
+- UX board: ALWAYS include table with search bar and available filters.
+- UX board: ALWAYS provide desktop view at 1280 x 700.
+- UX board: ALWAYS provide tablet view at 768 x 1024.
+- UX board: ALWAYS provide smartphone view at 390 x 844.
+- Responsive UI: ONLY stack or hide elements as viewport shrinks.
+- Responsive UI: NEVER change HTML DOM structure between resolutions or users.
+- ALWAYS use `zustand` with plain objects for application/domain state.
+- NEVER use React Context for global state.
+- Compound UI components: MAY use scoped React Context.
+- ALWAYS use `useSWR` for data retrieval.
+- ALWAYS use `useSWRMutation` for backend mutations.
+- NEVER combine `fetch` or `axios` with manual `useState` and `useEffect` for data fetching.
+- ALWAYS use meaningful cache-friendly fetcher keys.
+- Async operations: ALWAYS display loading spinners or skeletons.
+- ALWAYS use `react-hook-form` for forms.
+- ALWAYS use native `<form>` elements.
+- Form inputs and buttons: ALWAYS use proper types for Enter submission.
+- Entity full page: ALWAYS name component `<Entity>`.
+- Entity card-grid explorer: ALWAYS name component `<Entity>Grid`.
+- Entity card-grid item: ALWAYS name component `<Entity>GridItem`.
+- Entity table dashboard: ALWAYS name component `<Entity>List`.
+- Entity table row: ALWAYS name component `<Entity>ListItem`.
+- Entity forms: ALWAYS name components `<Entity>CreationForm` and `<Entity>UpdateForm`.
+- React root element: ALWAYS use `main.tsx`.
+- React-router routes: ALWAYS use `Router.tsx`.
+- Components: ALWAYS reside in `components/`.
+- Hooks: ALWAYS reside in `hooks/`.
+- Reused UI primitives: ALWAYS reside in `ui/`.
+- Route-level components except shared layouts: ALWAYS reside in `views/`.
 
 ## Testing
 
-- ALWAYS add proper unit/integration, interaction, and happy-path E2E tests. Unit test: complex pure functions/algorithms only. Integration test: feature flows.
-- ALWAYS make test setup explicit; load fixture inside test when possible; keep test input visible. NEVER use clever helpers, default `beforeEach` fixture needed by only some tests, redundant expectations, or meaningless zero-value tests.
-- Expectations: one proves one behavior; remove duplicate proof; retain explicit exclusion check when testing exclusion.
-- ALWAYS prefer Vitest `expect.matchObject` for grouped object-property expectations and `expect.toEqual`; avoid `expect.toBe` for single assertions.
+- ALWAYS add proper unit and integration testing.
+- ALWAYS add proper interaction testing.
+- ALWAYS add proper happy-path end-to-end testing.
+- ONLY add unit tests for complex pure functions or algorithms.
+- ALWAYS add integration tests for feature flows.
+- NEVER write clever test helpers.
+- ALWAYS make test setup explicit.
+- IF possible THEN load required fixture inside test.
+- NEVER set default fixture in `beforeEach` when only some tests need it.
+- ALWAYS make test input visible without hidden setup search.
+- NEVER write redundant expectations.
+- Expectation: ALWAYS prove one behavior.
+- IF first expectation proves same result THEN remove second expectation.
+- IF exclusion is behavior under test THEN keep explicit exclusion check.
+- NEVER write meaningless tests without coverage or behavior value.
+- ALWAYS prefer Vitest `expect.matchObject` to group expectations or compare expected object properties.
+- ALWAYS prefer Vitest `expect.toEqual`.
+- NEVER use Vitest `expect.toBe` for single assertions.
 
 ## Environment
 
-- ALWAYS centralize environment variables in `[.env](./env)`; list every available variable in root `sample.env`. Each service `env.ts`: read, parse, export `process.env` with Zod. NodeJS services: import/read `ENV`. IF adding env THEN update `sample.env`.
-- `NODE_ENV`: `test` test build; `development` unminified/unoptimized development build; `production` minified/optimized production build. Business logic: agnostic to `NODE_ENV`.
-- `APP_ENV`: `local` developer machine; `development` deployed development; `staging` deployed staging; `production` deployed production.
+- ALWAYS centralize environment variables in `.env`.
+- ALWAYS list available environment variables in root `sample.env`.
+- Service: ALWAYS provide `env.ts` to read, parse, and export `process.env` with Zod.
+- NodeJS service: ALWAYS import and read exported `ENV` object.
+- IF adding environment variable THEN update root `sample.env`.
+- `NODE_ENV=test`: service runs test build.
+- `NODE_ENV=development`: service runs unminified, unoptimized development build.
+- `NODE_ENV=production`: service runs minified, optimized production build.
+- Business logic: ALWAYS remain agnostic to `NODE_ENV`.
+- `APP_ENV=local`: service runs on developer local machine.
+- `APP_ENV=development`: service runs in deployed development environment.
+- `APP_ENV=staging`: service runs in deployed staging environment.
+- `APP_ENV=production`: service runs in deployed production environment.
 
 ## Database
 
-- Migrations: ALWAYS use `database.raw` plain SQL; NEVER use knex querybuilder; ALWAYS leave `down` empty.
-- Columns: IDs `uuidv7`; dates `timestamptz(0)`; numeric `text`; text `numeric`; enums `<col> text check (col in ('x','y','z'))`.
-- Tables: ALWAYS place `id`, `created_at`, `updated_at` first; avoid useless indexes; apply `updated_at` trigger setting column to `now()`.
-
-## Docker
-
-- ALWAYS use Alpine images when possible; minimize image size.
+- Migration files: NEVER use Knex query builder.
+- Migration files: ONLY use `database.raw` with plain raw SQL statements.
+- Migration files: ALWAYS leave `down` handler empty.
+- ID columns: ALWAYS define as `uuidv7`.
+- Date columns: ALWAYS define as `timestamptz(0)`.
+- Numeric columns: ALWAYS define as `numeric`.
+- NEVER use `char` unless strictly needed.
+- Text columns: ALWAYS define as `text`.
+- Enum columns: ALWAYS define as `<col> text check (col in ('x','y','z'))`.
+- Table: ALWAYS place `id`, `created_at`, `updated_at` as first three columns.
+- NEVER add useless indexes.
+- ALWAYS apply `updated_at` trigger setting column to `now()`.
 
 ## Git
 
-- Branch: `<type>-<ticker-number>-<summary>`. PR: `<type> <number>: <summary>`. Types: `feat`, `fix`, `chore`, `perf`.
-- PR description: `Problem` and `Solution` sections summarizing work. ALWAYS squash-merge PR into `main`.
-- CI: GitHub Actions `../.github/workflows/ci.yml`. PR to `main`: test only. Commit to `main`: test, deploy development; `staging`: test, deploy staging; `production`: test, deploy production.
+- Branch name: ALWAYS use `<type>-<ticker-number>-<summary>`.
+- PR name: ALWAYS use `<type> <number>: <summary>`.
+- Code change type: ONLY use `feat`, `fix`, `chore`, or `perf`.
+- PR: ALWAYS squash-merge into `main`.
+- PR description: ALWAYS include `Problem` section.
+- PR description: ALWAYS include `Solution` section.
+- CI: ALWAYS use GitHub Actions workflow `.github/workflows/ci.yml`.
+- PR targeting `main`: ALWAYS test and NEVER deploy.
+- Commit on `main`: ALWAYS test then deploy to development.
+- Commit on `staging`: ALWAYS test then deploy to staging.
+- Commit on `production`: ALWAYS test then deploy to production.
 
-## Communication
+## Docker
 
-- IF requirements unclear THEN ask clarification. ALWAYS ask confirmation for design decisions.
-- ALWAYS answer/code in English and ASD-STE100 Simplified Technical English. ALWAYS be concise/direct. NEVER be chatty, verbose, use dashes/emojis, or create wall of text.
-- IF plan too complex THEN use HTML visualization. IF user asks clarification THEN use ELI12 mode. NEVER install dependencies without user confirmation.
+- ALWAYS use Alpine image variants when possible.
+- ALWAYS keep images as compact as possible.
 
 ## Specs
 
-- Specs: AI coding-agent consumer only; maximize token efficiency/density; write for LLM parser.
-- ALWAYS use English ASD-STE100 Simplified Technical English; H2 headings, bullets, and code blocks only; list required changes as bullets.
-- NEVER use prose, introductions, background explanations, articles (`a`, `an`, `the`), conversational filler, or passive voice.
+- Specs: ALWAYS assume exclusive AI coding-agent consumer.
+- Specs: ALWAYS maximize token efficiency and density.
+- Specs: ALWAYS write for LLM parser.
+- Specs: ALWAYS use English and ASD-STE100 Simplified Technical English.
+- Specs: NEVER write prose, introductions, or background explanations.
+- Specs: ALWAYS omit articles, conversational filler, and passive voice.
+- Specs: ONLY use H2 headings, bullets, and code blocks.
+- Specs: ALWAYS list required changes in bullets.

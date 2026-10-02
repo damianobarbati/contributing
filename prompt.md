@@ -15,7 +15,8 @@ Output ONLY the final file content. No analysis, commentary, or summaries.
 
 ## Constraints
 
-- Minimum tokens, maximum instruction density, exact operational meaning, deterministic behavior, zero prose.
+- Minimize redundancy; maximize instruction clarity, scanability, and density.
+- Preserve exact operational meaning and deterministic behavior; use zero prose.
 - Never modify source files. Replace `./contributing.md`.
 - Never weaken, strengthen, generalize, or invent rules. Never infer missing rules or discard conflicts.
 - Merge semantically equivalent rules; retain distinct scopes, conditions, exceptions, and conflicts explicitly.
@@ -23,3 +24,5 @@ Output ONLY the final file content. No analysis, commentary, or summaries.
 - Use direct imperatives, flat bullet lists, and compact Markdown (`##` sections only if needed).
 - Formats: `ALWAYS <action>`, `NEVER <action>`, `IF <condition> THEN <action>`, `<scope>: <constraint>`.
 - Remove greetings, introductions, conclusions, rationale, commentary, repetition, filler, and redundant headings.
+- One independent operational rule per bullet. NEVER merge distinct rules into one bullet.
+- Keep bullets short; split a bullet when it contains more than one independent imperative.

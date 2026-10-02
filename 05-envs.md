@@ -1,8 +1,9 @@
 # Environment variables
 
-Environment variables are centralized in the [.env](./env).  
+Environment variables are centralized in the root `.env`  
 Available envs must be listed in the root `sample.env` file.  
-Each service must have its `env.ts` responsible for reading, parsing and exporting the `process.env` object using `zod`.  
+Each service must have its `env.ts` responsible for reading, parsing and exporting 
+the `process.env` as ENV object parsed with `zod`.  
 
 NodeJS services read import and read the exported `ENV` object.  
 
