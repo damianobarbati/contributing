@@ -6,7 +6,9 @@ The following general rules apply:
 - Avoid code repetition.
 - Avoid over-complication and over-engineering: if you can solve the problem with a simple helper function then use a simple helper function.
 - Avoid using the **optional chaining operator** to silence property access on an object that may be falsy.
-- Avoid promises and promise chaining and use only async/await syntax with try/catch statements.
+- Do not use `readonly`, `private`, or `override`.
+- Avoid explicit promises and promise chaining. Use `async`/`await` syntax with `try`/`catch` statements.
+- If an explicit promise is strictly necessary, use `Promise.withResolvers()`.
 
 ## Style
 - Always save the result into a dedicated local variable or constant and return that variable instead of using direct returns with inline calls.

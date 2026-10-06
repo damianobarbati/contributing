@@ -13,6 +13,7 @@
 - NEVER add unneeded abstractions.
 - ONLY add comments when clarity absolutely requires them.
 - ALWAYS use descriptive variable and function names.
+- UNLESS otherwise specified, ALWAYS write all text in English, including README files, UI copy, comments, and symbols.
 - IF requirements are unclear THEN ask for clarification.
 - ALWAYS ask confirmation for design decisions.
 - ALWAYS answer and code in English.
@@ -33,9 +34,10 @@
 - NEVER over-complicate or over-engineer code.
 - IF simple helper solves problem THEN use simple helper.
 - NEVER use optional chaining to silence access to possibly falsy object properties.
-- NEVER use promises.
-- ALWAYS use `async`/`await` with `try`/`catch` for promises.
+- NEVER use `readonly`, `private`, or `override`.
+- ALWAYS prefer `async`/`await` with `try`/`catch` over explicit promises.
 - NEVER use promise chaining.
+- IF explicit promise is strictly necessary THEN use `Promise.withResolvers()`.
 - ALWAYS assign call result to dedicated local variable or constant before returning it.
 - NEVER directly return inline calls.
 - ALWAYS leave one blank line between class methods.

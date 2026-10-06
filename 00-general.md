@@ -11,6 +11,7 @@ Codebase is ESM first and TypeScript first.
 - Do not solve problems that you don't have. Don't add features that you don't need. Don't add abstractions that you don't need.
 - Avoid comments unless absolutely necessary for clarity.
 - Use descriptive variable and function names.
+- Unless otherwise specified, write all text in English, including README files, UI copy, comments, and symbols.
 
 ## Communication guidelines
 
