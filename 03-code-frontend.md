@@ -16,6 +16,7 @@ Each component must:
 - Use custom hooks **only** when the reuse/performance benefit outweighs the maintenance overhead.
 - Avoid external libraries unless strictly necessary and always evaluate bundle size impact.
 - Avoid nested ternaries in JSX. Prefer early returns / guard clauses for multi-branch rendering, or clean single-level conditions.
+- First attribute of html elements must always be "id" if present, then "class" if present (or "className" for react components).
 
 ## Styling
 - Use Tailwind utility classes.
