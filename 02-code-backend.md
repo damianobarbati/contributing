@@ -26,9 +26,16 @@ Redirection and other routing functionalities are handled within the route defin
 
 The service implements the business logic and orchestrates interactions between repositories and external services.
 
+The service must determine business field values, expiration periods, and workflow decisions.
+
 ## Repository
 
 The repository manages the access to datasources (database, cache) and exposes methods to retrieve or persist the data.
+
+Before adding a custom repository method, inspect the inherited `Repository` methods.
+Never wrap existing CRUD methods in business-operation methods.
+Custom repository methods must implement only datasource operations unavailable through inherited methods.
+Refactoring must preserve transaction boundaries, locking, and atomic conditional updates.
 
 ## Tree structure
 
@@ -53,7 +60,10 @@ cli.ts                        # CLI commands definitions
 - Avoid repeating the resource name in the method name: `UserService.greetUser()` is incorrect; `UserService.greet()` is correct.
 - never return calls to other functions, but always assign the result to a `const result = ...` and then `return result`, allowing a debugger breakpoint on returned value 
 - Use the custom ResourceRepository extending the Repository baseclass exported by `nano-fw` for datasource access.
-- Create custom repository methods only if methods in `Repository.ts` don't allow the functionality
+- Before adding a custom repository method, inspect inherited Repository methods.
+- Create custom repository methods only if inherited methods don't allow the datasource operation.
+- Never wrap existing CRUD methods in business-operation methods.
+- Preserve transaction boundaries, locking, and atomic conditional updates during refactoring.
 - Don't use custom getters, use `Repository.get` `Repository.getBy` `Repository.findBy` `Repository.getem` for rows look up.
 - Every `packages/api/src/**/*Service.ts` must export `default class <Resource>Service`; service methods must be `static async`. Services must not access database clients directly and must use repositories.
 - Every `packages/api/src/**/*Repository.ts` must extend `Repository` from `nano-fw/database/Repository.ts` and export a configured singleto (repository uses postgres)

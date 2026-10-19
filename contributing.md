@@ -92,6 +92,7 @@
 - Route definition: ALWAYS handle redirection and other routing functionality.
 - Service: ALWAYS implement business logic.
 - Service: ALWAYS orchestrate repositories and external services.
+- Service: ALWAYS determine business field values, expiration periods, and workflow decisions.
 - Repository: ALWAYS manage datasource access.
 - Repository: ALWAYS expose retrieval methods.
 - Repository: ALWAYS expose persistence methods.
@@ -103,7 +104,10 @@
 - ALWAYS provide health-check endpoint returning API state.
 - NEVER repeat resource name in resource method name.
 - ALWAYS use custom `ResourceRepository` extending `Repository` from `nano-fw` for datasource access.
-- ONLY create custom repository methods when `Repository.ts` methods cannot provide functionality.
+- BEFORE adding a custom repository method, ALWAYS inspect inherited `Repository` methods.
+- Repository: NEVER wrap existing CRUD methods in business-operation methods.
+- Custom repository methods: ONLY implement datasource operations unavailable through inherited methods.
+- Refactoring: ALWAYS preserve transaction boundaries, locking, and atomic conditional updates.
 - NEVER use custom getters for row lookup.
 - Row lookup: ALWAYS use `Repository.get`, `Repository.getBy`, `Repository.findBy`, or `Repository.getem`.
 - `packages/api/src/**/*Service.ts`: ALWAYS default-export `class <Resource>Service`.
