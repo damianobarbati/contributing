@@ -15,8 +15,10 @@ Each component must:
 - Use `useMemo` and `useCallback` **only if** React Compiler doesn't already optimize them and when the performance benefit outweighs the maintenance overhead.
 - Use custom hooks **only** when the reuse/performance benefit outweighs the maintenance overhead.
 - Avoid external libraries unless strictly necessary and always evaluate bundle size impact.
-- Avoid nested ternaries in JSX. Prefer early returns / guard clauses for multi-branch rendering, or clean single-level conditions.
-- First attribute of html elements must always be "id" if present, then "class" if present (or "className" for react components).
+- Never use nested ternaries in JSX.
+- Use JSX ternaries only for simple, single-line binary rendering: `{condition ? <A /> : <B />}`.
+- For complex, multiline, or multi-branch JSX rendering, use guard clauses or early returns.
+- The first attribute of html elements must always be "id" if present, then "class" if present (or "className" for react components).
 
 ## Styling
 - Use Tailwind utility classes.
@@ -29,6 +31,10 @@ Each component must:
 
 ## UI
 - All icons used in the project must reside in the `icons.tsx` re-exporting them individually
+- Use minimal UI copy. Do not add eyebrow, overline, kicker, section labels, decorative microcopy, or invented microcopy unless explicitly requested.
+- Every text element must be necessary.
+- Use only the heading, required supporting text, and controls.
+- Prefer the minimum semantic DOM.
 
 ## UX
 UX must be provided as a board, composed the application UI kit with:

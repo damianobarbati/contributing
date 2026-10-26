@@ -34,6 +34,7 @@
 - NEVER over-complicate or over-engineer code.
 - IF simple helper solves problem THEN use simple helper.
 - NEVER use optional chaining to silence access to possibly falsy object properties.
+- NEVER use nested ternaries.
 - NEVER use `readonly`, `private`, or `override`.
 - ALWAYS prefer `async`/`await` with `try`/`catch` over explicit promises.
 - NEVER use promise chaining.
@@ -139,9 +140,9 @@
 - ONLY use custom hooks when reuse or performance benefit outweighs maintenance overhead.
 - ONLY use external libraries when strictly necessary.
 - ALWAYS evaluate external-library bundle-size impact.
-- NEVER use nested JSX ternaries.
-- Multi-branch JSX rendering: ALWAYS prefer early returns or guard clauses.
-- Single-level JSX conditions: ALWAYS keep conditions clean.
+- JSX: NEVER use nested ternaries.
+- JSX ternaries: ONLY use simple, single-line binary rendering: `{condition ? <A /> : <B />}`.
+- Complex, multiline, or multi-branch JSX rendering: ALWAYS use guard clauses or early returns.
 - ALWAYS use Tailwind utility classes.
 - Frequently reused Tailwind utilities: ALWAYS compose classes with `@apply` in `theme.css`.
 - NEVER use inline `style` unless dynamically computed.
@@ -152,6 +153,11 @@
 - NEVER use string interpolation to combine class names.
 - ALWAYS dedupe Tailwind classes.
 - Icons: ALWAYS reside in individually re-exporting `icons.tsx`.
+- UI copy: ALWAYS use minimal copy.
+- UI copy: NEVER add eyebrow, overline, kicker, section labels, decorative microcopy, or invented microcopy unless explicitly requested.
+- UI copy: ALWAYS make every text element necessary.
+- UI: ONLY use the heading, required supporting text, and controls.
+- UI: ALWAYS prefer the minimum semantic DOM.
 - UX: ALWAYS provide board composed of application UI kit.
 - UX board: ALWAYS include typography.
 - UX board: ALWAYS include `react-icons` icon set.
