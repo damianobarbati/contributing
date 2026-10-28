@@ -141,6 +141,7 @@
 - ONLY use external libraries when strictly necessary.
 - ALWAYS evaluate external-library bundle-size impact.
 - JSX: NEVER use nested ternaries.
+- JSX: NEVER use ternaries with `null` branch; use `{!!condition && <Element />}` for conditional rendering.
 - JSX ternaries: ONLY use simple, single-line binary rendering: `{condition ? <A /> : <B />}`.
 - Complex, multiline, or multi-branch JSX rendering: ALWAYS use guard clauses or early returns.
 - ALWAYS use Tailwind utility classes.

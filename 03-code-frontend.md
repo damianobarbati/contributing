@@ -16,6 +16,7 @@ Each component must:
 - Use custom hooks **only** when the reuse/performance benefit outweighs the maintenance overhead.
 - Avoid external libraries unless strictly necessary and always evaluate bundle size impact.
 - Never use nested ternaries in JSX.
+- Never use a ternary with `null` as a branch for conditional rendering; use `{!!condition && <Element />}` instead.
 - Use JSX ternaries only for simple, single-line binary rendering: `{condition ? <A /> : <B />}`.
 - For complex, multiline, or multi-branch JSX rendering, use guard clauses or early returns.
 - The first attribute of html elements must always be "id" if present, then "class" if present (or "className" for react components).
