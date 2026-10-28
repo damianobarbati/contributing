@@ -10,6 +10,9 @@
   - Load the required fixture inside the test when possible.
   - Do not put a default fixture in `beforeEach` when only some tests need it.
   - A reader must see the test input without searching for hidden setup.
+- Never modify seeded data in tests; each `describe` or `it` must prepare the data it needs when seeds do not provide it.
+- For tests that use the database, begin a transaction in `beforeEach` and roll it back in `afterEach`.
+- Avoid mocking when possible; use real calls to persistence layers. Mock email sending.
 - Avoid redundant expectations.
   - One expectation must prove one behavior.
   - Remove a second expectation when the first one already proves the same result.

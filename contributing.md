@@ -207,6 +207,11 @@
 - IF possible THEN load required fixture inside test.
 - NEVER set default fixture in `beforeEach` when only some tests need it.
 - ALWAYS make test input visible without hidden setup search.
+- NEVER modify seeded data in tests.
+- `describe` or `it`: ALWAYS prepare required data when seeds do not provide it.
+- Database tests: ALWAYS begin a transaction in `beforeEach` and roll it back in `afterEach`.
+- ALWAYS avoid mocking when possible and use real calls to persistence layers.
+- ONLY mock email sending.
 - NEVER write redundant expectations.
 - Expectation: ALWAYS prove one behavior.
 - IF first expectation proves same result THEN remove second expectation.
@@ -241,6 +246,9 @@
 - Date columns: ALWAYS define as `timestamptz(0)`.
 - Numeric columns: ALWAYS define as `numeric`.
 - NEVER use `char` unless strictly needed.
+- Transactions and table or row locks: ALWAYS minimize use and retain only when required for data correctness.
+- Transactions and locks: ALWAYS limit scope to minimum code needed to execute queries.
+- Transactions and locks: NEVER contain slow operations or file I/O, including sending email or reading/writing files.
 - Text columns: ALWAYS define as `text`.
 - Enum columns: ALWAYS define as `<col> text check (col in ('x','y','z'))`.
 - Table: ALWAYS place `id`, `created_at`, `updated_at` as first three columns.

@@ -11,3 +11,6 @@ Guidelines:
 - always put id, created_at, updated_at as first 3 columns of each table
 - avoid useless indexes
 - apply updated_at trigger to set column to now()
+- minimize transactions and table or row locks; retain them when required for data correctness
+- keep transactions and locks limited to the minimum code needed to execute queries
+- never perform slow operations or file I/O inside transactions or locks, including sending email or reading/writing files
