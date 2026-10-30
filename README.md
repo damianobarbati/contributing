@@ -4,6 +4,7 @@ The resources in this folder describe standards, strategies and procedures to co
 
 Table of contents:
 - [General](00-general.md)
+- [Generated assets](12-generated-assets.md)
 - [Code](01-code.md)
 - [Code - Backend](02-code-backend.md)
 - [Code - Frontend](03-code-frontend.md)

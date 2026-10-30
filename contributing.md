@@ -285,3 +285,8 @@
 - Specs: ALWAYS omit articles, conversational filler, and passive voice.
 - Specs: ONLY use H2 headings, bullets, and code blocks.
 - Specs: ALWAYS list required changes in bullets.
+
+## Generated Assets
+
+- Generated images: ALWAYS use WebP format.
+- Generated images: ALWAYS limit the longest side to 600 px.
