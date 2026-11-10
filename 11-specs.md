@@ -10,3 +10,4 @@ Rules:
 - Omit all articles (a, an, the), conversational filler, and passive voice.
 - Format: H2 headings (`##`), bullet points, and code blocks only.
 - List required changes in bullet points.
+- NEVER execute shell commands or start external processes from spec files, directly or indirectly, through `exec`, `execFile`, `spawn`, `bash`, `sh`, `pnpm`, or equivalent tools.

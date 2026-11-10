@@ -292,6 +292,7 @@
 - Specs: ALWAYS omit articles, conversational filler, and passive voice.
 - Specs: ONLY use H2 headings, bullets, and code blocks.
 - Specs: ALWAYS list required changes in bullets.
+- Specs: NEVER execute shell commands or start external processes from spec files, directly or indirectly, through `exec`, `execFile`, `spawn`, `bash`, `sh`, `pnpm`, or equivalent tools.
 
 ## Generated Assets
 
