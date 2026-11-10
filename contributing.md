@@ -272,6 +272,8 @@
 - PR description: ALWAYS include `Problem` section.
 - PR description: ALWAYS include `Solution` section.
 - CI: ALWAYS use GitHub Actions workflow `.github/workflows/ci.yml`.
+- GitHub Actions: ALWAYS use latest stable major version tag (`@vN`).
+- GitHub Actions: NEVER pin actions to commit SHAs.
 - PR targeting `main`: ALWAYS test and NEVER deploy.
 - Commit on `main`: ALWAYS test then deploy to development.
 - Commit on `staging`: ALWAYS test then deploy to staging.

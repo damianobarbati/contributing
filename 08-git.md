@@ -10,6 +10,8 @@ PR description must contain a summary of what was done containing 2 main section
 
 ## Continuous integration and delivery (CI/CD)
 - CI is powered by GitHub Actions, workflow is in [ci.yml](../.github/workflows/ci.yml)
+- GitHub Actions: always use the latest stable major version tag (`@vN`).
+- GitHub Actions: never pin actions to commit SHAs.
 - PR on `main` branch are tested but not deployed to any environment.
 - commits on `main` branch are tested then deployed to the development environment.
 - commits on `staging` branch are tested then deployed to the staging environment.
