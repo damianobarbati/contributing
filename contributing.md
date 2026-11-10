@@ -29,6 +29,13 @@
 
 ## Code
 
+- ALWAYS verify that a sibling workspace package is explicitly declared as a direct dependency in the importing package's own `package.json`, in the appropriate dependency section, before importing it in application code, tests, or type-only imports.
+- NEVER treat workspace-root dependencies, transitive dependencies, or hoisting as authorization to import a sibling package.
+- NEVER bypass sibling dependency requirements through relative paths, absolute paths, TypeScript aliases, dynamic imports, or re-exports, including type-only imports.
+- ALWAYS import sibling packages through their public package entry points.
+- NEVER access sibling packages' internal source files directly.
+- IF a required sibling dependency is missing THEN ask for explicit user approval before adding or installing it, identifying the consuming package, required sibling package, and reason.
+- IF a required sibling dependency is missing THEN wait for approval before changing dependency declarations or lockfiles or introducing the import.
 - ALWAYS follow current `biome` configuration.
 - NEVER repeat code.
 - NEVER over-complicate or over-engineer code.

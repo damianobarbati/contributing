@@ -22,6 +22,5 @@ Codebase is ESM first and TypeScript first.
 - Avoid wall of text.
 - Always use english language to answer and to code.
 - Use ASD-STE100 Simplified Technical English (STE).
-- When the plan is too complex, use HTML to visualize the changes. This will help the human a lot.
 - When the user asks for clarification, use ELI12 mode.
 - Don't install dependencies without user confirmation

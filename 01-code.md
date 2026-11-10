@@ -11,6 +11,15 @@ The following general rules apply:
 - Avoid explicit promises and promise chaining. Use `async`/`await` syntax with `try`/`catch` statements.
 - If an explicit promise is strictly necessary, use `Promise.withResolvers()`.
 
+## Monorepo package boundaries
+
+- Before importing from a sibling workspace package, verify that it is explicitly declared as a direct dependency in the importing package's own `package.json`, in the appropriate dependency section. This applies to application code, tests, and type-only imports.
+- A dependency declared only at the workspace root, installed transitively, or available through hoisting does not authorize the import.
+- Never bypass this requirement through relative paths, absolute paths, TypeScript aliases, dynamic imports, or re-exports, including type-only imports.
+- Import sibling packages through their public package entry points, never by accessing their internal source files directly.
+- If the required dependency is missing, ask for explicit user approval before adding or installing it. Identify the consuming package, the required sibling package, and the reason.
+- Wait for approval before changing dependency declarations or lockfiles or introducing the import.
+
 ## Style
 - Always save the result into a dedicated local variable or constant and return that variable instead of using direct returns with inline calls.
 - Leave 1 blank line between two methods inside a class.
