@@ -3,6 +3,9 @@
 - Add proper unit and integration testing (eg: vitest)
 - Add proper interaction testing (eg: components on React Story)
 - Add proper e2e testing on happy paths (eg: Playwright)
+- Structure API Vitest specs with an outer `describe` named after the tested class, service, controller, or other unit, a nested `describe` named after the method, and one `it` for each case.
+- Name API test cases by behavior, such as `it('works')`, `it('fails with ...')`, or `it('fails because ...')`.
+- Name each e2e `describe` with a concise name of the tested flow or web page.
 - Add unit tests only for complex pure functions/algorithms
 - Add integration tests for feature flows
 - Do not write clever test helpers, be explicit
@@ -18,5 +21,6 @@
   - Remove a second expectation when the first one already proves the same result.
   - Keep an explicit exclusion check when exclusion is the behavior under test.
 - Don't write meaningless tests that add no coverage or behavior value.
-- Prefer vitest `expect.matchObject` assertions to group expectations or comparing expected properties in objects.
+- Use Vitest `expect.matchObject` to check fields of an existing object.
+- Do not construct an object only to use `expect.matchObject` or group unrelated assertions.
 - Prefer vitest `expect.toEqual` and avoid `expect.toBe` for single assertions. 

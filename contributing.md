@@ -208,6 +208,11 @@
 - ALWAYS add proper unit and integration testing.
 - ALWAYS add proper interaction testing.
 - ALWAYS add proper happy-path end-to-end testing.
+- API Vitest specs: ALWAYS name outer `describe` after tested class, service, controller, or other unit.
+- API Vitest specs: ALWAYS nest method-named `describe` inside unit `describe`.
+- API Vitest specs: ALWAYS place one `it` per case inside method `describe`.
+- API Vitest specs: ALWAYS name cases by behavior, such as `works`, `fails with ...`, or `fails because ...`.
+- E2E: ALWAYS name each `describe` with concise tested flow or web page name.
 - ONLY add unit tests for complex pure functions or algorithms.
 - ALWAYS add integration tests for feature flows.
 - NEVER write clever test helpers.
@@ -225,7 +230,8 @@
 - IF first expectation proves same result THEN remove second expectation.
 - IF exclusion is behavior under test THEN keep explicit exclusion check.
 - NEVER write meaningless tests without coverage or behavior value.
-- ALWAYS prefer Vitest `expect.matchObject` to group expectations or compare expected object properties.
+- ALWAYS use Vitest `expect.matchObject` to check fields of existing object.
+- NEVER construct object only to use `expect.matchObject` or group unrelated assertions.
 - ALWAYS prefer Vitest `expect.toEqual`.
 - NEVER use Vitest `expect.toBe` for single assertions.
 
